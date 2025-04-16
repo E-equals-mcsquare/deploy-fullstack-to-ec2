@@ -193,14 +193,14 @@ This structure allows you to manage the React frontend and Node.js backend indep
 
 ## STEP 2: Configure Secrets
 
-🔹 1. Store credentials and sensitive data in AWS Secrets Manager
+Store credentials and sensitive data in AWS Secrets Manager
 
 ## STEP 3: Manual Deployment
 
-🔹 1. Convert PPK file to PEM format
-🔹 2. SSH into EC2 instances
+🔹 1. Convert PPK file to PEM format<br>
+🔹 2. SSH into EC2 instances<br>
 🔹 3. Run the frontend app/backend build
 
 ## STEP 4: Automate Deployment
 
-🔹 1. Setup CI/CD pipeline using GitHub Actions
+Setup CI/CD pipeline using GitHub Actions
