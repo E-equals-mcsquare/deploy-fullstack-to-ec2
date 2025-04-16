@@ -127,69 +127,69 @@ This structure allows you to manage the React frontend and Node.js backend indep
 
 ## STEP 1: Setup Infrastructure with Terraform
 
-🔹 1. Create a VPC<br>
+🔹 1. Create a VPC
 
-- CIDR Block: 10.0.0.0/16<br>
+- CIDR Block: 10.0.0.0/16
 - This is your own virtual network.
 
-🔹 2. Create Subnets<br>
-Split VPC into zones:<br>
+🔹 2. Create Subnets
 
-- 10.0.1.0/24 → Public Subnet (for Load Balancer, NAT GW)<br>
-- 10.0.2.0/24 → Private Subnet A (App EC2)<br>
-- 10.0.3.0/24 → Private Subnet B (DB EC2 if needed)<br>
-  ⚠️ Always deploy in multiple Availability Zones for high availability.
+- Split VPC into zones:
+  - 10.0.1.0/24 → Public Subnet (for Load Balancer, NAT GW)
+  - 10.0.2.0/24 → Private Subnet A (App EC2)
+  - 10.0.3.0/24 → Private Subnet B (DB EC2 if needed)
+- ⚠️ Always deploy in multiple Availability Zones for high availability.
 
-🔹 3. Create an Internet Gateway (IGW)<br>
+🔹 3. Create an Internet Gateway (IGW)
 
-- Attach IGW to your VPC<br>
+- Attach IGW to your VPC
 - Needed for public subnets to access the internet
 
-🔹 4. Create a NAT Gateway<br>
+🔹 4. Create a NAT Gateway
 
-- Place NAT GW in public subnet<br>
-- Attach an Elastic IP to it<br>
-- Allows private EC2s to access the internet (for OS updates, npm, pip installs etc)<br>
+- Place NAT GW in public subnet
+- Attach an Elastic IP to it
+- Allows private EC2s to access the internet (for OS updates, npm, pip installs etc)
 
-🔹 5. Create Route Tables<br>
+🔹 5. Create Route Tables
 
-- Public Route Table:<br>
-  - Route: 0.0.0.0/0 → Internet Gateway<br>
-  - Associate with public subnet<br>
-- Private Route Table:<br>
-  - Route: 0.0.0.0/0 → NAT Gateway<br>
+- Public Route Table:
+  - Route: 0.0.0.0/0 → Internet Gateway
+  - Associate with public subnet
+- Private Route Table:
+  - Route: 0.0.0.0/0 → NAT Gateway
   - Associate with private subnets
 
-🔹 6. Create Security Groups<br>
+🔹 6. Create Security Groups
 
-- Frontend SG:<br>
-  - Allow HTTP (80), HTTPS (443) from anywhere<br>
-  - Allow SSH (22) from your IP<br>
-- Backend SG:<br>
-  - Allow traffic from Frontend SG (on app port like 3000, 5000)<br>
-- DB SG (if using RDS):<br>
+- Frontend SG:
+  - Allow HTTP (80), HTTPS (443) from anywhere
+  - Allow SSH (22) from your IP
+- Backend SG:
+  - Allow traffic from Frontend SG (on app port like 3000, 5000)
+- DB SG (if using RDS):
   - Allow traffic from Backend SG on DB port (3306, 5432, etc)
 
-🔹 7. Launch EC2 Instances<br>
+🔹 7. Launch EC2 Instances
 
-- Frontend EC2 in Public Subnet:<br>
-  - Install Nginx / Node.js / React build<br>
-  - Public IP attached (optional if behind ALB)<br>
-- Backend EC2 in Private Subnet:<br>
-  - Install Node.js / Python / Flask / Express<br>
-  - Accessible only from Frontend EC2 or Load Balancer<br>
+- Frontend EC2 in Public Subnet:
+  - Install Nginx / Node.js / React build
+- Public IP attached (optional if behind ALB)
+  - Backend EC2 in Private Subnet:
+- Install Node.js / Python / Flask / Express
+- Accessible only from Frontend EC2 or Load Balancer
 - (Optional) DB EC2 or RDS instance in private subnet
 
-🔹 8. (Optional) Add Load Balancer<br>
+🔹 8. (Optional) Add Load Balancer
 
-- Use Application Load Balancer (ALB) in front of frontend or backend<br>
-- Add health checks, listeners, target groups<br>
+- Use Application Load Balancer (ALB) in front of frontend or backend
+- Add health checks, listeners, target groups
 - Make your infrastructure scalable
 
-🔹 9. DNS Setup - Not included in this tutorial<br>
+🔹 9. DNS Setup - Not included in this tutorial
 
-- Use Route 53 to assign domain names<br>
-- Map to ALB or EC2 Public IP
+- Use Route 53 to assign domain names
+  - Map to ALB or EC2 Public IP
 
 ## STEP 2: Configure Secrets
 
@@ -197,10 +197,10 @@ Split VPC into zones:<br>
 
 ## STEP 3: Manual Deployment
 
-🔹 1. Convert PPK file to PEM format<br>
-🔹 2. SSH into EC2 instances<br>
+🔹 1. Convert PPK file to PEM format
+🔹 2. SSH into EC2 instances
 🔹 3. Run the frontend app/backend build
 
 ## STEP 4: Automate Deployment
 
-🔹 1. Setup CI/CD pipeline using GitHub Actions<br>
+🔹 1. Setup CI/CD pipeline using GitHub Actions
